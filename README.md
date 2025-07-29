@@ -14,13 +14,47 @@ npm install fonema effect
 import { cleanTextForTTS } from "fonema";
 import { Effect } from "effect";
 
-const text = "El Dr. García tiene 25 años y vive en la C/ Mayor, 123.";
+// Ejemplo que demuestra todas las capacidades de limpieza
+const text = `
+El Dr. García, especialista en IA, tiene 25 años de experiencia.
+Nació el 15/03/1980 y atiende en la C/ Mayor, 123, 2ºB.
+Su correo es dr.garcia@clinica.com y su web https://drgarcia.es
+
+Su última investigación mostró un 75% de efectividad:
+
+\`\`\`
+function saludar() { return "Hola, soy el Dr. García"; }
+\`\`\`
+
+¡Agenda tu cita al 555-123-4567!`;
 
 const program = cleanTextForTTS(text);
 
 Effect.runSync(program);
-// → "El Doctor García tiene veinticinco años y vive en la Calle Mayor, ciento veintitrés."
+/* → 
+"El Doctor García, especialista en I A, tiene veinticinco años de experiencia.
+Nació el quince de marzo de mil novecientos ochenta y atiende en la Calle Mayor, 
+ciento veintitrés, segundo B.
+
+Su última investigación mostró un setenta y cinco por ciento de efectividad:
+
+¡Agenda tu cita al cinco cinco cinco, uno veintitrés, cuarenta y cinco, sesenta y siete!"
+*/
 ```
+
+### ¿Qué hizo fonema?
+
+1. **Abreviaturas**: `Dr.` → `Doctor`
+2. **Fechas**: `15/03/1980` → `quince de marzo de mil novecientos ochenta`
+3. **Direcciones**: `C/ Mayor` → `Calle Mayor`
+4. **Números**: `123` → `ciento veintitrés`
+5. **Porcentajes**: `75%` → `setenta y cinco por ciento`
+6. **Eliminó**:
+   - Email: `dr.garcia@clinica.com`
+   - URL: `https://drgarcia.es`
+   - Bloque de código completo
+7. **Números de teléfono**: `555-123-4567` → `cinco cinco cinco, uno veintitrés, cuarenta y cinco, sesenta y siete`
+8. **Formato de piso**: `2ºB` → `segundo B`
 
 ## API
 
